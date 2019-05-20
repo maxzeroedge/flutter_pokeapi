@@ -2,6 +2,10 @@ import 'package:poke_api/models/pokemon/ability.dart';
 import 'package:poke_api/models/pokemon/pokemon_form.dart';
 import 'package:poke_api/models/pokemon/game_indices.dart';
 import 'package:poke_api/models/pokemon/pokemon_move.dart';
+import 'package:poke_api/models/pokemon/pokemon_stat.dart';
+import 'package:poke_api/models/pokemon/pokemon_type.dart';
+import 'package:poke_api/models/name_url.dart';
+
 
 class Pokemon{
 	int id;
@@ -19,10 +23,10 @@ class Pokemon{
 	List<GameIndices> game_indices;
 	List held_items;
 	List<PokemonMove> moves;
-	List stats;
-	List types;
-	dynamic species;
-	dynamic sprites;
+	List<PokemonStat> stats;
+	List<PokemonType> types;
+	NameUrlClass species;
+	Map<String, String> sprites;
 
 	Pokemon(){
 		this.name = '';
