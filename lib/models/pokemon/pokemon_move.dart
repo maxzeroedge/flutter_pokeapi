@@ -1,3 +1,5 @@
+import 'package:poke_api/models/name_url.dart';
+
 class PokemonMove{
 	PokemonMoveDetail move;
 	PokemonMoveVersionGroupDetail version_group_details;
@@ -27,34 +29,7 @@ class PokemonMove{
 	}
 }
 
-class PokemonMoveDetail{
-	String name;
-	String url;
-
-	PokemonMoveDetail(){
-		this.name = '';
-		this.url = '';
-	}
-
-	PokemonMoveDetail.fromJson(Map json):
-		name = json['name'],
-		url = json['url'];
-
-	Map toJson(){
-		return {
-			'name': this.name,
-			'url': this.url
-		};
-	}
-
-	dynamic operator[](key){
-		if(key == 'name'){
-			return this.name;
-		} else if(key == 'url'){
-			return this.url;
-		}
-	}
-}
+class PokemonMoveDetail extends NameUrlClass{}
 
 class PokemonMoveVersionGroupDetail{
 	int level_learned_at;
@@ -91,60 +66,6 @@ class PokemonMoveVersionGroupDetail{
 	}
 }
 
-class PokemonMoveLearnMethod{
-	String name;
-	String url;
+class PokemonMoveLearnMethod extends NameUrlClass{}
 
-	PokemonMoveLearnMethod(){
-		this.name = '';
-		this.url = '';
-	}
-
-	PokemonMoveLearnMethod.fromJson(Map json):
-		name = json['name'],
-		url = json['url'];
-
-	Map toJson(){
-		return {
-			'name': this.name,
-			'url': this.url
-		};
-	}
-
-	dynamic operator[](key){
-		if(key == 'name'){
-			return this.name;
-		} else if(key == 'url'){
-			return this.url;
-		}
-	}
-}
-
-class PokemonMoveVersionGroup{
-	String name;
-	String url;
-
-	PokemonMoveVersionGroup(){
-		this.name = '';
-		this.url = '';
-	}
-
-	PokemonMoveVersionGroup.fromJson(Map json):
-		name = json['name'],
-		url = json['url'];
-
-	Map toJson(){
-		return {
-			'name': this.name,
-			'url': this.url
-		};
-	}
-
-	dynamic operator[](key){
-		if(key == 'name'){
-			return this.name;
-		} else if(key == 'url'){
-			return this.url;
-		}
-	}
-}
+class PokemonMoveVersionGroup extends NameUrlClass{}

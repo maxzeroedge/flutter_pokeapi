@@ -1,3 +1,5 @@
+import 'package:poke_api/models/name_url.dart';
+
 class Ability{
 	AbilityDetail ability;
 	int slot;
@@ -33,31 +35,4 @@ class Ability{
 	}
 }
 
-class AbilityDetail{
-	String name;
-	String url;
-
-	AbilityDetail(){
-		this.name = '';
-		this.url = '';
-	}
-
-	AbilityDetail.fromJson(Map json):
-		name = json['name'],
-		url = json['url'];
-
-	Map toJson(){
-		return {
-			'name': this.name,
-			'url': this.url
-		};
-	}
-
-	dynamic operator[](key){
-		if(key == 'name'){
-			return this.name;
-		} else if(key == 'url'){
-			return this.url;
-		}
-	}
-}
+class AbilityDetail extends NameUrlClass{}
