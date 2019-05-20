@@ -1,7 +1,27 @@
+import 'package:poke_api/models/pokemon/ability.dart';
+import 'package:poke_api/models/pokemon/pokemon_form.dart';
+import 'package:poke_api/models/pokemon/game_indices.dart';
+
 class Pokemon{
+	int id;
+	int order;
+	int base_experience;
+	int height;
+	int width;
 	String name;
 	String url;
 	String image;
+	String location_area_encounters;
+	bool is_default;
+	List<Ability> abilities;
+	List<PokemonForm> forms;
+	List<GameIndices> game_indices;
+	List held_items;
+	List moves;
+	List stats;
+	List types;
+	dynamic species;
+	dynamic sprites;
 
 	Pokemon(){
 		this.name = '';
