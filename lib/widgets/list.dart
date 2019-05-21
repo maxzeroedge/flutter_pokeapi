@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 
 class MyCustomListWidget extends StatefulWidget {
-	  MyCustomListWidget({
-		  Key key,
-		  this.futureFunction,
-		  this.navigateNextFunction,
-		  this.listType,
-		  this.keyName
-	  }) : super(key: key);
-	  final String listType;
-	  final String keyName;
-	  // final Future<List<Map<String, dynamic>>> futureItems;
-	  final Function futureFunction;
-	  final Function navigateNextFunction;
-	  List<Map<String, dynamic>> items;
-	  @override
-	  MyCustomListState createState() => MyCustomListState();
+		MyCustomListWidget({
+			Key key,
+			this.items,
+			this.futureFunction,
+			this.navigateNextFunction,
+			this.listType,
+			this.keyName
+		}) : super(key: key);
+		final String listType;
+		final String keyName;
+		// final Future<List<Map<String, dynamic>>> futureItems;
+		final Function futureFunction;
+		final Function navigateNextFunction;
+		dynamic items;
+		@override
+		MyCustomListState createState() => MyCustomListState();
 }
 
 class MyCustomListItemWidget extends StatefulWidget{
@@ -35,11 +36,15 @@ class MyCustomListState extends State<MyCustomListWidget> {
 	@override
 	void initState() {
 		super.initState();
-		widget.futureFunction().then((response)=>{
-			this.setState((){
-				items = widget.keyName != null ? response[widget.keyName] : response;
-			})
-		});
+		if(widget.futureFunction != null){
+			widget.futureFunction().then((response)=>{
+				this.setState((){
+					items = widget.keyName != null ? response[widget.keyName] : response;
+				})
+			});
+		} else if(widget.items != null){
+			items = widget.items;
+		}
 	}
 	@override
 	Widget build(BuildContext context) {
