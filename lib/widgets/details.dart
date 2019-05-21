@@ -36,7 +36,17 @@ class MyCustomDetails extends State<MyCustomDetailsWidget> {
 				Expanded(
 					child: Center(
 						child: Column(
-						children: <Widget>[Image.network(image), Text(name)],
+						children: <Widget>[
+							Image.network(image), 
+							Text("#${widget.item['id']}"),
+							Text(name),
+							Text("Order: ${widget.item['order']}"),
+							Text("Base Experience: ${widget.item['base_experience']}"),
+							Text("Height: ${widget.item['height']}"),
+							Text("Width: ${widget.item['width']}"),
+							Text("Location Area Encounters: ${widget.item['location_area_encounters']}"),
+							Text("Abilities: ${widget.item['abilities']}"),
+						],
 					)))
 			]
 		);
