@@ -14,7 +14,7 @@ class GameIndices{
 	Map toJson(){
 		return {
 			'game_index': this.gameIndex,
-			'version': this.version.toJson()
+			'version': this.version?.toJson()
 		};
 	}
 
@@ -44,6 +44,6 @@ class GameIndexVersion{
 	}
 
 	dynamic operator[](key){
-		return this.toJson()[key];
+		return this?.toJson()[key];
 	}
 }

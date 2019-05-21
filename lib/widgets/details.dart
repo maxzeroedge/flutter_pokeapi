@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poke_api/models/pokemon/ability.dart';
 
 class MyCustomDetailsWidget extends StatefulWidget {
 	MyCustomDetailsWidget({Key key, this.item, this.fetchDetails, this.url}) : super(key: key);
@@ -24,29 +25,60 @@ class MyCustomDetails extends State<MyCustomDetailsWidget> {
 
 	@override
 	Widget build(BuildContext context) {
-		String name = widget.item['name'].toString();
+		String name = widget.item.name.toString();
 		name = '${name[0].toUpperCase()}${name.substring(1)}';
-		String image = widget.item['image'];
-		image = image != null
-			? image.toString()
-			: "https://flutter.dev/images/catalog-widget-placeholder.png";
-		String url = widget.item['url'].toString();
+		String image = widget.item.image;
+		image = image != null && image != '{}'
+			? image : "https://flutter.dev/images/catalog-widget-placeholder.png";
 		return Column(
 			children: <Widget>[
 				Expanded(
 					child: Center(
-						child: Column(
-						children: <Widget>[
-							Image.network(image), 
-							Text("#${widget.item['id']}"),
-							Text(name),
-							Text("Order: ${widget.item['order']}"),
-							Text("Base Experience: ${widget.item['base_experience']}"),
-							Text("Height: ${widget.item['height']}"),
-							Text("Width: ${widget.item['width']}"),
-							Text("Location Area Encounters: ${widget.item['location_area_encounters']}"),
-							Text("Abilities: ${widget.item['abilities']}"),
-						],
+						child: ListView(
+							children: <Widget>[
+								Image.network(
+									image,
+									width: 96.0,
+									height: 96.0
+								), 
+								Center(
+									child: Column(
+										children: <Widget>[
+											Text("#${widget.item.id}", style: TextStyle(height: 2.0)),
+											Text(name, style: TextStyle(height: 2.0)),
+											Text("Order: ${widget.item.order}", style: TextStyle(height: 2.0)),
+											Text("Base Experience: ${widget.item.baseExperience}", style: TextStyle(height: 2.0)),
+											Text("Height: ${widget.item.height}", style: TextStyle(height: 2.0)),
+											Text("Weight: ${widget.item.weight}", style: TextStyle(height: 2.0)),
+											Text("Location Area Encounters:", style: TextStyle(height: 4.0, fontWeight: FontWeight.bold)),
+											Text("${widget.item.locationAreaEncounters}", style: TextStyle(height: 2.0)),
+											Text("Abilities: ", style: TextStyle(height: 4.0, fontWeight: FontWeight.bold)),
+											Column(
+												children: <Widget>[
+													...widget.item.abilities?.map(
+														(d)=>
+															Text(
+																"${d.ability?.name[0].toUpperCase()}${d.ability?.name?.substring(1)}", 
+																style: TextStyle(height: 2.0)
+															)
+														)?.toList()
+												],
+											),
+											Text("Moves: "),
+											Column(
+												children: <Widget>[
+													...widget.item.moves?.map(
+														(d)=>
+															Text(
+																"${d.move?.name[0].toUpperCase()}${d.move?.name?.substring(1)}", 
+																style: TextStyle(height: 2.0)
+															)
+														)?.toList()
+												],
+											)
+										],
+									))
+							],
 					)))
 			]
 		);

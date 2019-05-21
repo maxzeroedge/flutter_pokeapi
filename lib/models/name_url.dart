@@ -8,8 +8,8 @@ class NameUrlClass{
 	}
 
 	NameUrlClass.fromJson(Map json):
-		name = json['name'],
-		url = json['url'];
+		name = json != null ? json['name'] : '',
+		url = json != null ? json['url'] : '';
 
 	Map toJson(){
 		return {

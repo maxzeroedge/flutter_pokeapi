@@ -20,6 +20,6 @@ class PokemonForm{
 	}
 
 	dynamic operator[](key){
-		return this.toJson()[key];
+		return this?.toJson()[key];
 	}
 }

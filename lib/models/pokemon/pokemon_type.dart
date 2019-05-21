@@ -16,11 +16,11 @@ class PokemonType{
 	Map toJson(){
 		return {
 			'slot': this.slot,
-			'type': this.type.toJson()
+			'type': this.type?.toJson()
 		};
 	}
 
 	dynamic operator[](key){
-		return this.toJson()[key];
+		return this?.toJson()[key];
 	}
 }

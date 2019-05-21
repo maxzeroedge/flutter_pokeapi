@@ -9,7 +9,9 @@ Future<PokemonList> fetchAllPokemon() async{
 		Map<String, dynamic> jsonResponse = json.jsonDecode(response.body);
 		PokemonList pokemonList = PokemonList(jsonResponse['count'].toString(), jsonResponse['next'], jsonResponse['previous']);
 		for(dynamic result in (jsonResponse['results'] as List<dynamic>)){
-			pokemonList.results.add(Pokemon.fromJson(result));
+      if(result != null){
+			  pokemonList.results.add(Pokemon.fromJson(result));
+      }
 		}
 		return pokemonList;
 	} else {

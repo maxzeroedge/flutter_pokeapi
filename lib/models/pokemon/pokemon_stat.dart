@@ -20,11 +20,11 @@ class PokemonStat{
 		return {
 			'base_stat': this.baseStat,
 			'effort': this.effort,
-			'stat': this.stat.toJson()
+			'stat': this.stat?.toJson()
 		};
 	}
 
 	dynamic operator[](key){
-		return this.toJson()[key];
+		return this?.toJson()[key];
 	}
 }

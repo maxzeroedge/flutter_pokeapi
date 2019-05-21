@@ -18,7 +18,7 @@ class Ability{
 
 	Map toJson(){
 		return {
-			'ability': this.ability.toJson(),
+			'ability': this.ability?.toJson(),
 			'slot': this.slot,
 			'is_hidden': this.isHidden
 		};

@@ -68,11 +68,11 @@ class MyCustomListState extends State<MyCustomListWidget> {
 class MyCustomListItemState extends State<MyCustomListItemWidget> {
 	@override
 	Widget build(BuildContext context) {
-		String name = widget.item['name'].toString();
+		String name = widget.item.name?.toString();
 		name = '${name[0].toUpperCase()}${name.substring(1)}';
-		String image = widget.item['image'];
-		image = image != null ? image.toString() : "https://flutter.dev/images/catalog-widget-placeholder.png";
-		String url = widget.item['url'].toString();
+		String image = widget.item.image?.toString();
+		image = image != null && image != '{}' ? image : "https://flutter.dev/images/catalog-widget-placeholder.png";
+		String url = widget.item.url?.toString();
 		return GestureDetector(
 			onTap: (){
 				widget.navigateNextFunction(context, url);
