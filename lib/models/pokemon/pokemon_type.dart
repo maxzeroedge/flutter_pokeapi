@@ -2,16 +2,16 @@ import 'package:poke_api/models/name_url.dart';
 
 class PokemonType{
 	int slot;
-	PokemonTypeDetail type;
+	NameUrlClass type;
 
 	PokemonType(){
 		this.slot = 0;
-		this.type = PokemonTypeDetail();
+		this.type = NameUrlClass();
 	}
 
 	PokemonType.fromJson(Map json):
 		slot = json['slot'] as int,
-		type = PokemonTypeDetail.fromJson(json['type']);
+		type = NameUrlClass.fromJson(json['type']);
 
 	Map toJson(){
 		return {
@@ -21,12 +21,6 @@ class PokemonType{
 	}
 
 	dynamic operator[](key){
-		if(key == 'slot'){
-			return this.slot;
-		} else if(key == 'type'){
-			return this.type;
-		}
+		return this.toJson()[key];
 	}
 }
-
-class PokemonTypeDetail extends NameUrlClass{}

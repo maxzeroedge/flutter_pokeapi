@@ -19,10 +19,6 @@ class NameUrlClass{
 	}
 
 	dynamic operator[](key){
-		if(key == 'name'){
-			return this.name;
-		} else if(key == 'url'){
-			return this.url;
-		}
+    return this.toJson()[key];
 	}
 }

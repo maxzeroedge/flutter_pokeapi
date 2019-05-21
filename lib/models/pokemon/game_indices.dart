@@ -1,29 +1,25 @@
 class GameIndices{
-	int game_index;
+	int gameIndex;
 	GameIndexVersion version;
 
 	GameIndices(){
-		this.game_index = 0;
+		this.gameIndex = 0;
 		this.version = GameIndexVersion();
 	}
 
 	GameIndices.fromJson(Map json):
-		game_index = json['game_index'] as int,
+		gameIndex = json['game_index'] as int,
 		version = GameIndexVersion.fromJson(json['version']);
 
 	Map toJson(){
 		return {
-			'game_index': this.game_index,
+			'game_index': this.gameIndex,
 			'version': this.version.toJson()
 		};
 	}
 
 	dynamic operator[](key){
-		if(key == 'game_index'){
-			return this.game_index;
-		} else if(key == 'version'){
-			return this.version;
-		}
+		return this.toJson()[key];
 	}
 }
 
@@ -48,10 +44,6 @@ class GameIndexVersion{
 	}
 
 	dynamic operator[](key){
-		if(key == 'name'){
-			return this.name;
-		} else if(key == 'url'){
-			return this.url;
-		}
+		return this.toJson()[key];
 	}
 }
