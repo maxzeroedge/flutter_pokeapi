@@ -12,22 +12,25 @@ class MyCustomDetailsWidget extends StatefulWidget {
 }
 
 class MyCustomDetails extends State<MyCustomDetailsWidget> {
+	bool isLoading = true;
+	dynamic item;
 	@override
 	void initState() {
 		super.initState();
-		/*if(this.widget.fetchDetails != null) {
+		if(this.widget.fetchDetails != null) {
 			this.widget.fetchDetails(this.widget.url).then((response) =>
-			{
-				widget.item = response;
-			});
-		}*/
+				this.setState((){
+					item = response;
+					isLoading = false;
+				})
+			);
+		}
 	}
 
-	@override
-	Widget build(BuildContext context) {
-		String name = widget.item.name.toString();
-		name = '${name[0].toUpperCase()}${name.substring(1)}';
-		String image = widget.item.image;
+	Widget getLoadedWidget(){
+		String name = item?.name?.toString();
+		name = '${name?.substring(0,1)?.toUpperCase()}${name?.substring(1)}';
+		String image = item?.image;
 		image = image != null && image != '{}'
 			? image : "https://flutter.dev/images/catalog-widget-placeholder.png";
 		return Column(
@@ -44,21 +47,21 @@ class MyCustomDetails extends State<MyCustomDetailsWidget> {
 								Center(
 									child: Column(
 										children: <Widget>[
-											Text("#${widget.item.id}", style: TextStyle(height: 2.0)),
+											Text("#${item?.id}", style: TextStyle(height: 2.0)),
 											Text(name, style: TextStyle(height: 2.0)),
-											Text("Order: ${widget.item.order}", style: TextStyle(height: 2.0)),
-											Text("Base Experience: ${widget.item.baseExperience}", style: TextStyle(height: 2.0)),
-											Text("Height: ${widget.item.height}", style: TextStyle(height: 2.0)),
-											Text("Weight: ${widget.item.weight}", style: TextStyle(height: 2.0)),
+											Text("Order: ${item?.order}", style: TextStyle(height: 2.0)),
+											Text("Base Experience: ${item?.baseExperience}", style: TextStyle(height: 2.0)),
+											Text("Height: ${item?.height}", style: TextStyle(height: 2.0)),
+											Text("Weight: ${item?.weight}", style: TextStyle(height: 2.0)),
 											Text("Location Area Encounters:", style: TextStyle(height: 4.0, fontWeight: FontWeight.bold)),
-											Text("${widget.item.locationAreaEncounters}", style: TextStyle(height: 2.0)),
+											Text("${item?.locationAreaEncounters}", style: TextStyle(height: 2.0)),
 											Text("Abilities: ", style: TextStyle(height: 4.0, fontWeight: FontWeight.bold)),
 											Column(
 												children: <Widget>[
-													...widget.item.abilities?.map(
+													...item?.abilities?.map(
 														(d)=>
 															Text(
-																"${d.ability?.name[0].toUpperCase()}${d.ability?.name?.substring(1)}", 
+																"${d.ability?.name?.substring(0,1)?.toUpperCase()}${d.ability?.name?.substring(1)}", 
 																style: TextStyle(height: 2.0)
 															)
 														)?.toList()
@@ -67,10 +70,10 @@ class MyCustomDetails extends State<MyCustomDetailsWidget> {
 											Text("Moves: "),
 											Column(
 												children: <Widget>[
-													...widget.item.moves?.map(
+													...item?.moves?.map(
 														(d)=>
 															Text(
-																"${d.move?.name[0].toUpperCase()}${d.move?.name?.substring(1)}", 
+																"${d.move?.name?.substring(0,1)?.toUpperCase()}${d.move?.name?.substring(1)}", 
 																style: TextStyle(height: 2.0)
 															)
 														)?.toList()
@@ -82,5 +85,20 @@ class MyCustomDetails extends State<MyCustomDetailsWidget> {
 					)))
 			]
 		);
+	}
+
+	@override
+	Widget build(BuildContext context) {			
+		var loadedWidget = item != null ? getLoadedWidget() : null;
+		var loadingWidget = Column(
+			children: <Widget>[
+				Expanded(
+					child: Center(
+						child: CircularProgressIndicator()
+					),
+				)
+			],
+		);
+		return isLoading ? loadingWidget : loadedWidget;
 	}
 }

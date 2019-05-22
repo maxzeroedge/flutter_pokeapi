@@ -5,48 +5,19 @@ import 'package:poke_api/utils/api_requests.dart';
 
 class MyApp extends StatelessWidget {
 
-	PageRoute showLoading(){
-		return MaterialPageRoute(builder: (context) => Scaffold(
-			appBar: AppBar(
-				title: Text('Pokemon API Database Browser')
-			),
-			body: Column(
-				children: <Widget>[
-					Expanded(
-						child: Center(
-							child: CircularProgressIndicator ()
-						)
-					)
-				],
-			)
-		));
-	}
-
 	void navigateToDetails(BuildContext context, String url){
-		// var showLoading = this.showLoading();
-		// Navigator.push(
-		// 	context,
-		// 	showLoading
-		// );
-		fetchPokemonDetails(url).then((details){
-			var newRoute = MaterialPageRoute(builder: (context) => Scaffold(
+		Navigator.push(
+			context,
+			MaterialPageRoute(builder: (context) => Scaffold(
 				appBar: AppBar(
-					title: Text(details.name)
+					title: Text("Details")
 				),
 				body: MyCustomDetailsWidget(
-					item: details
+					fetchDetails: fetchPokemonDetails,
+					url: url
 				)
-			));
-			// Navigator.replace(
-			// 	context,
-			// 	oldRoute: showLoading,
-			// 	newRoute: newRoute,
-			// );
-			Navigator.push(
-				context,
-				newRoute
-			);
-		});
+			))
+		);
 	}
 
 	@override

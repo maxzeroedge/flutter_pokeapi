@@ -33,6 +33,7 @@ class MyCustomListItemWidget extends StatefulWidget{
 
 class MyCustomListState extends State<MyCustomListWidget> {
 	var items = List();
+	bool isLoading = true;
 	@override
 	void initState() {
 		super.initState();
@@ -40,6 +41,7 @@ class MyCustomListState extends State<MyCustomListWidget> {
 			widget.futureFunction().then((response)=>{
 				this.setState((){
 					items = widget.keyName != null ? response[widget.keyName] : response;
+					isLoading = false;
 				})
 			});
 		} else if(widget.items != null){
@@ -48,7 +50,7 @@ class MyCustomListState extends State<MyCustomListWidget> {
 	}
 	@override
 	Widget build(BuildContext context) {
-		return Container(
+		var loadedWidget = Container(
 			child: ListView(
 				children: <Widget>[
 					Center(
@@ -67,6 +69,16 @@ class MyCustomListState extends State<MyCustomListWidget> {
 				]
 			)
 		);
+		var loadingWidget = Column(
+			children: <Widget>[
+				Expanded(
+					child: Center(
+						child: CircularProgressIndicator()
+					),
+				)
+			],
+		);
+		return isLoading ? loadingWidget : loadedWidget;
 	}
 }
 
