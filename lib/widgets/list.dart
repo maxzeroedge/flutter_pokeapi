@@ -1,111 +1,71 @@
 import 'package:flutter/material.dart';
 
-class MyCustomListWidget extends StatefulWidget {
-		MyCustomListWidget({
-			Key key,
-			this.items,
-			this.futureFunction,
-			this.navigateNextFunction,
-			this.listType,
-			this.keyName
-		}) : super(key: key);
-		final String listType;
-		final String keyName;
-		// final Future<List<Map<String, dynamic>>> futureItems;
-		final Function futureFunction;
-		final Function navigateNextFunction;
-		dynamic items;
-		@override
-		MyCustomListState createState() => MyCustomListState();
-}
-
-class MyCustomListItemWidget extends StatefulWidget{
-	MyCustomListItemWidget({
+class CustomPokemonListWidget extends StatefulWidget{
+	CustomPokemonListWidget({
 		Key key,
-		this.item,
-		this.navigateNextFunction
-	}) : super(key: key);
-	final dynamic item;
-	final Function navigateNextFunction;
+		this.listData
+	}) : super (key: key);
+
+	final List listData;
+
 	@override
-	MyCustomListItemState createState() => MyCustomListItemState();
+	CustomPokemonListState createState() => CustomPokemonListState();
 }
 
-class MyCustomListState extends State<MyCustomListWidget> {
-	var items = List();
-	bool isLoading = true;
+class CustomPokemonListState extends State<CustomPokemonListWidget>{
+	List<Widget> listWidget;
+
 	@override
-	void initState() {
+	void initState(){
 		super.initState();
-		if(widget.futureFunction != null){
-			widget.futureFunction().then((response)=>{
-				this.setState((){
-					items = widget.keyName != null ? response[widget.keyName] : response;
-					isLoading = false;
-				})
-			});
-		} else if(widget.items != null){
-			items = widget.items;
+		if(widget.listData.length > 0){
+			listWidget = widget.listData.map( 
+				(item)=> CustomPokemonListItemWidget(
+					listItem: item
+				)
+			).cast<Widget>();
+		} else {
+			listWidget = List<Widget>();
+			listWidget.add(CustomEmptyListWidget());
 		}
 	}
+	
 	@override
 	Widget build(BuildContext context) {
-		var loadedWidget = Container(
+		return Container(
 			child: ListView(
 				children: <Widget>[
-					Center(
-						child: Text(
-							'List of Available ' + widget.listType
-						)
-					),
-					...(
-						this.items != null ? this.items.map(
-							(item) => MyCustomListItemWidget(
-								item: item,
-								navigateNextFunction: widget.navigateNextFunction
-							)
-						) : List()
-					)
-				]
-			)
+					...listWidget
+				],
+			),
 		);
-		var loadingWidget = Column(
-			children: <Widget>[
-				Expanded(
-					child: Center(
-						child: CircularProgressIndicator()
-					),
-				)
-			],
-		);
-		return isLoading ? loadingWidget : loadedWidget;
+	}
+	
+}
+
+class CustomPokemonListItemWidget extends StatefulWidget{
+	CustomPokemonListItemWidget({
+		Key key,
+		this.listItem
+	}) : super(key: key);
+
+	final Object listItem;
+
+	@override
+	CustomPokemonListItemState createState() => CustomPokemonListItemState();
+}
+
+class CustomPokemonListItemState extends State<CustomPokemonListItemWidget>{
+	@override
+	Widget build(BuildContext context){
+		// TODO: implement build
+		return null;
 	}
 }
 
-class MyCustomListItemState extends State<MyCustomListItemWidget> {
+class CustomEmptyListWidget extends StatelessWidget{
 	@override
-	Widget build(BuildContext context) {
-		String name = widget.item.name?.toString();
-		name = '${name[0].toUpperCase()}${name.substring(1)}';
-		String image = widget.item.image?.toString();
-		image = image != null && image != '{}' ? image : "https://flutter.dev/images/catalog-widget-placeholder.png";
-		String url = widget.item.url?.toString();
-		return GestureDetector(
-			onTap: (){
-				widget.navigateNextFunction(context, url);
-			},
-			child: Card(
-				child: Column(
-					children: <Widget>[
-						Image.network(
-							image
-						),
-						Text(
-							name
-						)
-					]
-				)
-			)
-		);
+	Widget build(BuildContext buildContext){
+		return Text("Empty List?");
 	}
 }

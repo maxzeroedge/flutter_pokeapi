@@ -9,9 +9,9 @@ Future<PokemonList> fetchAllPokemon() async{
 		Map<String, dynamic> jsonResponse = json.jsonDecode(response.body);
 		PokemonList pokemonList = PokemonList(jsonResponse['count'].toString(), jsonResponse['next'], jsonResponse['previous']);
 		for(dynamic result in (jsonResponse['results'] as List<dynamic>)){
-      if(result != null){
-			  pokemonList.results.add(Pokemon.fromJson(result));
-      }
+			if(result != null){
+				pokemonList.results.add(Pokemon.fromJson(result));
+			}
 		}
 		return pokemonList;
 	} else {
@@ -30,4 +30,16 @@ Future<Pokemon> fetchPokemonDetails(String url) async{
 	} else {
 		return Pokemon();
 	}
+}
+
+Future<List<Map<String, String>>> fetchListTypes() async{
+	final Response response = await get("https://pokeapi.co/api/v2/");
+	if (response.statusCode == 200) {
+		Map<String, String> jsonResponse = json.jsonDecode(response.body);
+		return jsonResponse.keys.map( (v)  => {v: jsonResponse[v]} );
+	} else {
+		return List<Map<String, String>>();
+	}
+}
+f(String e) {
 }

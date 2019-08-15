@@ -30,11 +30,27 @@ class MyApp extends StatelessWidget {
 			),
 			home:  Scaffold(
 				appBar: AppBar(title: Text('Pokemon API Database Browser')),
-				body: MyCustomListWidget(
-					listType: 'Pokemon',
-					futureFunction: fetchAllPokemon,
-					navigateNextFunction: navigateToDetails,
-					keyName: 'results'
+				body: FutureBuilder(
+					future: fetchListTypes(),
+					builder: ( context, snapshot ){
+						/**MyCustomListWidget(
+							listType: 'Pokemon',
+							futureFunction: fetchAllPokemon,
+							navigateNextFunction: navigateToDetails,
+							keyName: 'results'
+						) */
+						if(snapshot.connectionState == ConnectionState.done){
+							if(snapshot.hasError){
+								return Text("Error");
+							} else {
+								return CustomPokemonListWidget(
+									listData: snapshot.data
+								);
+							}
+						} else {
+							return Text("Loading");
+						}
+					},
 				)
 			)
 		);
