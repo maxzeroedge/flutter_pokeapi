@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:poke_api/pages/home.dart';
 import 'package:poke_api/widgets/details.dart';
 import 'package:poke_api/utils/api_requests.dart';
+import 'package:poke_api/utils/string_utils.dart';
 
 class MyApp extends StatefulWidget {
 	@override
@@ -13,21 +14,6 @@ class MyAppState extends State<MyApp> {
 	String currentUrl = ""; //https://pokeapi.co/api/v2/pokemon/
 	List<Map<String, dynamic>> _pageTypes;
 
-	void navigateToDetails(BuildContext context, String url){
-		Navigator.push(
-			context,
-			MaterialPageRoute(builder: (context) => Scaffold(
-				appBar: AppBar(
-					title: Text("Details")
-				),
-				body: MyCustomDetailsWidget(
-					fetchDetails: fetchPokemonDetails,
-					url: url
-				)
-			))
-		);
-	}
-
 	@override
 	void initState(){
 		super.initState();
@@ -37,11 +23,6 @@ class MyAppState extends State<MyApp> {
 				currentUrl = _pageTypes.first.values.first;
 			})
 		});
-	}
-
-	String capitalizeString(String str){
-		str = str.replaceAll("-", " ");
-		return str.split(" ").map( (s) => '${s[0].toUpperCase()}${s.substring(1)}' ).join(" ");
 	}
 
 	@override

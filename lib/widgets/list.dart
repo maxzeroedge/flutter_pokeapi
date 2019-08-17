@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:convert' as json;
+import 'package:poke_api/utils/string_utils.dart';
 
 class CustomPokemonListWidget extends StatefulWidget{
 	CustomPokemonListWidget({
@@ -71,6 +72,19 @@ class CustomPokemonListItemState extends State<CustomPokemonListItemWidget>{
 		super.initState();
 		// Type type = widget.listItem.runtimeType;
 	}
+
+	void navigateToDetails(BuildContext context, String url){
+		Navigator.push(
+			context,
+			MaterialPageRoute(builder: (context) => Scaffold(
+				appBar: AppBar(
+					title: Text("Details")
+				),
+				body: Text(url)
+			))
+		);
+	}
+
 	@override
 	Widget build(BuildContext context){
 		// TODO: Use the type
@@ -82,10 +96,16 @@ class CustomPokemonListItemState extends State<CustomPokemonListItemWidget>{
 		} */
 		if(widget.type == "Pokemon"){
 			if(jsonContent["name"] != null){
-				String name = jsonContent["name"];
 				widgetList.add(
-					Text( '${name[0].toUpperCase()}${name.substring(1)}',
-					style: TextStyle(height: 2, fontSize: 20.0) )
+					GestureDetector(
+						onTap: (){
+							navigateToDetails(context, jsonContent["url"]);
+						},
+						child: Text( 
+							capitalizeString(jsonContent["name"]),
+							style: TextStyle(height: 2, fontSize: 20.0) 
+						)
+					)
 				);
 			}
 		}
