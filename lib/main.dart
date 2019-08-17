@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:poke_api/widgets/list.dart';
+import 'package:poke_api/pages/home.dart';
 import 'package:poke_api/widgets/details.dart';
 import 'package:poke_api/utils/api_requests.dart';
 
 class MyApp extends StatefulWidget {
 	@override
-	MyAppState createState => MyAppState();
+	MyAppState createState() => MyAppState();
 }
 
 class MyAppState extends State<MyApp> {
 
-	int _selectedTab = 0;
-	int currentUrl = ""; //https://pokeapi.co/api/v2/pokemon/
-	Map<String, dynamic> _pageOptions;
+	String currentUrl = ""; //https://pokeapi.co/api/v2/pokemon/
+	List<Map<String, dynamic>> _pageTypes;
 
 	void navigateToDetails(BuildContext context, String url){
 		Navigator.push(
@@ -30,6 +29,17 @@ class MyAppState extends State<MyApp> {
 	}
 
 	@override
+	void initState(){
+		super.initState();
+		fetchListTypes().then((response)=>{
+			this.setState((){
+				_pageTypes = response.entries.map( (v)=> {v.key: v.value} ).toList();
+				currentUrl = _pageTypes.first.values.first;
+			})
+		});
+	}
+
+	@override
 	Widget build(BuildContext context) {
 		return MaterialApp(
 			debugShowCheckedModeBanner: false,
@@ -37,54 +47,39 @@ class MyAppState extends State<MyApp> {
 			theme: ThemeData(
 				primarySwatch: Colors.red,
 			),
-			home:  Scaffold(
+			home: Scaffold(
 				appBar: AppBar(title: Text('Pokemon API Database Browser')),
-				body: FutureBuilder(
-					future: fetchUrl(currentUrl),
-					builder: ( context, snapshot ){
-						if(snapshot.connectionState == ConnectionState.done){
-							if(snapshot.hasError){
-								return Text("Error");
-							} else {
-								return CustomPokemonListWidget(
-									listData: snapshot.data,
-									type: "Pokemon"
-								);
-							}
-						} else {
-							return Text("Loading");
-						}
-					},
+				body: SafeArea(
+					child: HomeWidget(
+						currentUrl: currentUrl
+					),
 				),
-				bottomNavigationBar: FutureBuilder(
-					future: fetchListTypes(),
-					builder: ( context, snapshot ){
-						if(snapshot.connectionState == ConnectionState.done){
-							if(snapshot.hasError){
-								return Text("Unable to load bottom navigation bar");
-							} else {
-								setState(()=>{
-									_pageOptions = snapshot.data;
-								})
-								return BottomNavigationBar(
-									currentIndex: _selectedTab,
-									onTap (int indx){
-										setState((){
-											currentUrl = snapshot.data.entries[indx].value;
-											_selectedTab = indx;
+				drawer: _pageTypes != null ? Drawer(
+					child: ListView(
+						children: <Widget>[
+							Container(
+								height: 55.0,
+								child: DrawerHeader(
+									child: Text('Pokemon List Type'),
+									margin: EdgeInsets.all(0),
+									decoration: BoxDecoration(
+										color: Colors.blue,
+									),
+								),
+							),
+							..._pageTypes.map( (v) => 
+								ListTile(
+									title: Text(v.keys.first),
+									onTap: (){
+										setState(() {
+											currentUrl = v.values.first;
 										});
 									},
-									items: snapshot.data.entries.map( (v)=>{
-										BottomNavigationBarItem(
-											title: v.key
-										);
-									} )
 								)
-							}
-						} else {
-							return Text("Loading");
-						}
-					},
+							),
+						],
+					)
+				) : Text("Hello"),
 			)
 		);
 	}

@@ -38,11 +38,14 @@ Future<Map<String, dynamic>> fetchListTypes() async{
 		Map<String, dynamic> jsonResponse = json.jsonDecode(response.body);
 		return jsonResponse;
 	} else {
-		return List<Map<String, dynamic>>();
+		return Map<String, dynamic>();
 	}
 }
 
 Future<List<Map<String, dynamic>>> fetchUrl(String url) async{
+	if(url.isEmpty){
+		return List<Map<String, dynamic>>();
+	}
 	final Response response = await get(url);
 	if (response.statusCode == 200) {
 		Map<String, dynamic> jsonResponse = json.jsonDecode(response.body);

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:convert' as json;
 
-import '../models/pokemon.dart';
-
 class CustomPokemonListWidget extends StatefulWidget{
 	CustomPokemonListWidget({
 		Key key,
@@ -18,18 +16,22 @@ class CustomPokemonListWidget extends StatefulWidget{
 }
 
 class CustomPokemonListState extends State<CustomPokemonListWidget>{
-	List<Widget> listWidget;
+	List<Widget> listWidget = List<Widget>();
 
 	@override
 	void initState(){
 		super.initState();
 		if(widget.listData.length > 0){
-			listWidget = widget.listData.map( 
-				(item)=> CustomPokemonListItemWidget(
-					listItem: item,
-					type: widget.type
-				)
-			).cast<Widget>();
+			widget.listData.forEach( 
+				(item)=> {
+					listWidget.add(
+						CustomPokemonListItemWidget(
+							listItem: item,
+							type: widget.type
+						)
+					)
+				}
+			);
 		} else {
 			listWidget = List<Widget>();
 			listWidget.add(CustomEmptyListWidget());
@@ -40,9 +42,7 @@ class CustomPokemonListState extends State<CustomPokemonListWidget>{
 	Widget build(BuildContext context) {
 		return Container(
 			child: ListView(
-				children: <Widget>[
-					...listWidget
-				],
+				children: listWidget,
 			),
 		);
 	}
@@ -81,7 +81,7 @@ class CustomPokemonListItemState extends State<CustomPokemonListItemWidget>{
 			widgetList.add(Text(jsonContent.values.first));
 		}
 		if(widget.type == "Pokemon"){
-			widgetList.add(Text(jsonContent.name));
+			widgetList.add(Text(jsonContent["name"]));
 		}
 
 		return Card(
