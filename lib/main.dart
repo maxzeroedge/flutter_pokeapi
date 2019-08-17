@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
 							} else {
 								return CustomPokemonListWidget(
 									listData: snapshot.data,
-									type: "TypeList"
+									type: "Pokemon"
 								);
 							}
 						} else {

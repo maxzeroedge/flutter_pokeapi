@@ -80,6 +80,9 @@ class CustomPokemonListItemState extends State<CustomPokemonListItemWidget>{
 			widgetList.add(Text(jsonContent.keys.first));
 			widgetList.add(Text(jsonContent.values.first));
 		}
+		if(widget.type == "Pokemon"){
+			widgetList.add(Text(jsonContent.name));
+		}
 
 		return Card(
 			child: Column(

@@ -32,13 +32,12 @@ Future<Pokemon> fetchPokemonDetails(String url) async{
 	}
 }
 
-Future<List<Map<String, String>>> fetchListTypes() async{
+Future<List<Map<String, dynamic>>> fetchListTypes() async{
 	final Response response = await get("https://pokeapi.co/api/v2/");
 	if (response.statusCode == 200) {
 		Map<String, dynamic> jsonResponse = json.jsonDecode(response.body);
-		// not returning a FutureOr object
 		return jsonResponse.keys.map( (v)  => {v: jsonResponse[v]} ).toList();
 	} else {
-		return List<Map<String, String>>();
+		return List<Map<String, dynamic>>();
 	}
 }
