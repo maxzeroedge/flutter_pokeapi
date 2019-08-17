@@ -39,6 +39,11 @@ class MyAppState extends State<MyApp> {
 		});
 	}
 
+	String capitalizeString(String str){
+		str = str.replaceAll("-", " ");
+		return str.split(" ").map( (s) => '${s[0].toUpperCase()}${s.substring(1)}' ).join(" ");
+	}
+
 	@override
 	Widget build(BuildContext context) {
 		return MaterialApp(
@@ -68,13 +73,19 @@ class MyAppState extends State<MyApp> {
 								),
 							),
 							..._pageTypes.map( (v) => 
-								ListTile(
-									title: Text(v.keys.first),
-									onTap: (){
-										setState(() {
-											currentUrl = v.values.first;
-										});
-									},
+								Builder(
+									builder: (listTileContext) => ListTile(
+										title: Text(
+											capitalizeString(v.keys.first),
+											style: TextStyle(height: 2, fontSize: 17.0)
+										),
+										onTap: (){
+											setState(() {
+												currentUrl = v.values.first;
+												Navigator.of(listTileContext).pop();
+											});
+										},
+									)
 								)
 							),
 						],

@@ -76,13 +76,17 @@ class CustomPokemonListItemState extends State<CustomPokemonListItemWidget>{
 		// TODO: Use the type
 		Map jsonContent = json.jsonDecode(json.jsonEncode(widget.listItem));
 		List<Widget> widgetList = List<Widget>();
-		if(widget.type == "TypeList"){
+		/* if(widget.type == "TypeList"){
 			widgetList.add(Text(jsonContent.keys.first));
 			widgetList.add(Text(jsonContent.values.first));
-		}
+		} */
 		if(widget.type == "Pokemon"){
 			if(jsonContent["name"] != null){
-				widgetList.add(Text( jsonContent["name"] ));
+				String name = jsonContent["name"];
+				widgetList.add(
+					Text( '${name[0].toUpperCase()}${name.substring(1)}',
+					style: TextStyle(height: 2, fontSize: 20.0) )
+				);
 			}
 		}
 
