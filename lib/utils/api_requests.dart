@@ -42,15 +42,16 @@ Future<Map<String, dynamic>> fetchListTypes() async{
 	}
 }
 
-Future<List<Map<String, dynamic>>> fetchUrl(String url) async{
+Future<List<dynamic>> fetchUrl(String url) async{
 	if(url.isEmpty){
-		return List<Map<String, dynamic>>();
+		return List<dynamic>();
 	}
 	final Response response = await get(url);
 	if (response.statusCode == 200) {
 		Map<String, dynamic> jsonResponse = json.jsonDecode(response.body);
-		return jsonResponse.keys.map( (v)  => {v: jsonResponse[v]} ).toList();
+		// return jsonResponse.keys.map( (v)  => {v: jsonResponse[v]} ).toList();
+		return jsonResponse["results"];
 	} else {
-		return List<Map<String, dynamic>>();
+		return List<dynamic>();
 	}
 }

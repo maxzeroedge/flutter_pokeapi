@@ -16,7 +16,7 @@ class CustomPokemonListWidget extends StatefulWidget{
 }
 
 class CustomPokemonListState extends State<CustomPokemonListWidget>{
-	List<Widget> listWidget = List<Widget>();
+	List<CustomPokemonListItemWidget> listWidget = List<CustomPokemonListItemWidget>();
 
 	@override
 	void initState(){
@@ -34,7 +34,7 @@ class CustomPokemonListState extends State<CustomPokemonListWidget>{
 			);
 		} else {
 			listWidget = List<Widget>();
-			listWidget.add(CustomEmptyListWidget());
+			listWidget.add(CustomPokemonListItemWidget());
 		}
 	}
 	
@@ -81,7 +81,9 @@ class CustomPokemonListItemState extends State<CustomPokemonListItemWidget>{
 			widgetList.add(Text(jsonContent.values.first));
 		}
 		if(widget.type == "Pokemon"){
-			widgetList.add(Text(jsonContent["name"]));
+			if(jsonContent["name"] != null){
+				widgetList.add(Text( jsonContent["name"] ));
+			}
 		}
 
 		return Card(
