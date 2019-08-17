@@ -3,7 +3,16 @@ import 'package:poke_api/widgets/list.dart';
 import 'package:poke_api/widgets/details.dart';
 import 'package:poke_api/utils/api_requests.dart';
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+	@override
+	MyAppState createState => MyAppState();
+}
+
+class MyAppState extends State<MyApp> {
+
+	int _selectedTab = 0;
+	int currentUrl = ""; //https://pokeapi.co/api/v2/pokemon/
+	Map<String, dynamic> _pageOptions;
 
 	void navigateToDetails(BuildContext context, String url){
 		Navigator.push(
@@ -31,14 +40,8 @@ class MyApp extends StatelessWidget {
 			home:  Scaffold(
 				appBar: AppBar(title: Text('Pokemon API Database Browser')),
 				body: FutureBuilder(
-					future: fetchListTypes(),
+					future: fetchUrl(currentUrl),
 					builder: ( context, snapshot ){
-						/**MyCustomListWidget(
-							listType: 'Pokemon',
-							futureFunction: fetchAllPokemon,
-							navigateNextFunction: navigateToDetails,
-							keyName: 'results'
-						) */
 						if(snapshot.connectionState == ConnectionState.done){
 							if(snapshot.hasError){
 								return Text("Error");
@@ -52,7 +55,36 @@ class MyApp extends StatelessWidget {
 							return Text("Loading");
 						}
 					},
-				)
+				),
+				bottomNavigationBar: FutureBuilder(
+					future: fetchListTypes(),
+					builder: ( context, snapshot ){
+						if(snapshot.connectionState == ConnectionState.done){
+							if(snapshot.hasError){
+								return Text("Unable to load bottom navigation bar");
+							} else {
+								setState(()=>{
+									_pageOptions = snapshot.data;
+								})
+								return BottomNavigationBar(
+									currentIndex: _selectedTab,
+									onTap (int indx){
+										setState((){
+											currentUrl = snapshot.data.entries[indx].value;
+											_selectedTab = indx;
+										});
+									},
+									items: snapshot.data.entries.map( (v)=>{
+										BottomNavigationBarItem(
+											title: v.key
+										);
+									} )
+								)
+							}
+						} else {
+							return Text("Loading");
+						}
+					},
 			)
 		);
 	}

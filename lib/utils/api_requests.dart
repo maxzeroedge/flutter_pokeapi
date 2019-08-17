@@ -32,8 +32,18 @@ Future<Pokemon> fetchPokemonDetails(String url) async{
 	}
 }
 
-Future<List<Map<String, dynamic>>> fetchListTypes() async{
+Future<Map<String, dynamic>> fetchListTypes() async{
 	final Response response = await get("https://pokeapi.co/api/v2/");
+	if (response.statusCode == 200) {
+		Map<String, dynamic> jsonResponse = json.jsonDecode(response.body);
+		return jsonResponse;
+	} else {
+		return List<Map<String, dynamic>>();
+	}
+}
+
+Future<List<Map<String, dynamic>>> fetchUrl(String url) async{
+	final Response response = await get(url);
 	if (response.statusCode == 200) {
 		Map<String, dynamic> jsonResponse = json.jsonDecode(response.body);
 		return jsonResponse.keys.map( (v)  => {v: jsonResponse[v]} ).toList();
