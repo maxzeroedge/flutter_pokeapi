@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert' as json;
 import 'package:poke_api/utils/string_utils.dart';
+import 'package:poke_api/widgets/details.dart';
 
 class CustomPokemonListWidget extends StatefulWidget{
 	CustomPokemonListWidget({
@@ -80,7 +81,7 @@ class CustomPokemonListItemState extends State<CustomPokemonListItemWidget>{
 				appBar: AppBar(
 					title: Text("Details")
 				),
-				body: Text(url)
+				body: MyCustomDetailsWidget(url: url)
 			))
 		);
 	}

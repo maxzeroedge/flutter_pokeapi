@@ -55,3 +55,17 @@ Future<List<dynamic>> fetchUrl(String url) async{
 		return List<dynamic>();
 	}
 }
+
+Future<Map<String, dynamic>> fetchDetailsUrl(String url) async{
+	if(url.isEmpty){
+		return Map<String, dynamic>();
+	}
+	final Response response = await get(url);
+	if (response.statusCode == 200) {
+		Map<String, dynamic> jsonResponse = json.jsonDecode(response.body);
+		// return jsonResponse.keys.map( (v)  => {v: jsonResponse[v]} ).toList();
+		return jsonResponse;
+	} else {
+		return Map<String, dynamic>();
+	}
+}

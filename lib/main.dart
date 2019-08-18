@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:poke_api/pages/home.dart';
-import 'package:poke_api/widgets/details.dart';
 import 'package:poke_api/utils/api_requests.dart';
 import 'package:poke_api/utils/string_utils.dart';
 
