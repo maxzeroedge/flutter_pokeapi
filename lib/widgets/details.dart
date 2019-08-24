@@ -94,15 +94,12 @@ class MyCustomDetailsBlockState extends State<MyCustomDetailsBlockWidget> {
 			widgetList.add(
 				Card(
 					child: Column(
-						mainAxisAlignment: MainAxisAlignment.start,
+						crossAxisAlignment: CrossAxisAlignment.start,
 						children: childWidgetList,
 					),
 				)
 			);
 		}
-		dynamicList.forEach( (v) => {
-			
-		});
 		return widgetList;
 	}
 
@@ -112,12 +109,13 @@ class MyCustomDetailsBlockState extends State<MyCustomDetailsBlockWidget> {
 		} else if(detailData.runtimeType == Map<String, dynamic>().runtimeType){
 			return MyCustomDetailsBlockWidget(detailData: detailData);
 		}
-		return Text(detailData.toString());
+		return Text(detailData.toString(), textAlign: TextAlign.left,);
 	}
 	
 	@override
 	Widget build(BuildContext context){
 		return Column(
+			crossAxisAlignment: CrossAxisAlignment.start,
 			children: getWidgetList(widget.detailData),
 		);
 	}
