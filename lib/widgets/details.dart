@@ -29,6 +29,7 @@ class MyCustomDetailsState extends State<MyCustomDetailsWidget> {
 						return Text("Error");
 					} else {
 						Map<String, dynamic> data = snapshot.data;
+						print(data.keys);
 						return ListView(
 							children: <Widget>[
 								MyCustomDetailsBlockWidget(
@@ -76,27 +77,23 @@ class MyCustomDetailsBlockState extends State<MyCustomDetailsBlockWidget> {
 		} else if(detailData.runtimeType == Map<String, dynamic>().runtimeType){
 			dynamicList = detailData.keys.toList();
 			type = 0;
-			/* return MyCustomDetailsBlockWidget(
-				detailData: detailData,
-			); */
 		}
 		List<Widget> widgetList = List<Widget>();
 		for( dynamic v in dynamicList ){
-			List<Widget> childWidgetList = List<Widget>();
+			Widget titleWidget;
 			if( v.runtimeType != List<dynamic>().runtimeType ){
-				childWidgetList.add( getChildWidget(v) );
+				titleWidget = getChildWidget(v);
+			} else {
+				titleWidget = getChildWidget("List");
 			}
-			childWidgetList.add(
-				getChildWidget( 
-					getDataFromList( detailData, v, type )
-				)
-			);
 			widgetList.add(
-				Card(
-					child: Column(
-						crossAxisAlignment: CrossAxisAlignment.start,
-						children: childWidgetList,
-					),
+				ExpansionTile(
+					title: titleWidget,
+					children: <Widget>[
+						getChildWidget( 
+							getDataFromList( detailData, v, type )
+						)
+					],
 				)
 			);
 		}
@@ -114,9 +111,10 @@ class MyCustomDetailsBlockState extends State<MyCustomDetailsBlockWidget> {
 	
 	@override
 	Widget build(BuildContext context){
+		List<Widget> widgetList = getWidgetList(widget.detailData);
 		return Column(
 			crossAxisAlignment: CrossAxisAlignment.start,
-			children: getWidgetList(widget.detailData),
+			children: widgetList,
 		);
 	}
 }
