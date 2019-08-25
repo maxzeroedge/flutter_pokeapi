@@ -77,25 +77,48 @@ class MyCustomDetailsBlockState extends State<MyCustomDetailsBlockWidget> {
 		} else if(detailData.runtimeType == Map<String, dynamic>().runtimeType){
 			dynamicList = detailData.keys.toList();
 			type = 0;
+		} else {
+			return <Widget>[
+				getChildWidget(detailData)
+			];
 		}
 		List<Widget> widgetList = List<Widget>();
-		for( dynamic v in dynamicList ){
+		for( dynamic item in dynamicList ){
+			List<Widget> childWidgetList = List<Widget>();
 			Widget titleWidget;
-			if( v.runtimeType != List<dynamic>().runtimeType ){
-				titleWidget = getChildWidget(v);
+			if( item.runtimeType != List<dynamic>().runtimeType ){
+				titleWidget = getChildWidget(item);
 			} else {
 				titleWidget = getChildWidget("List");
 			}
-			widgetList.add(
-				ExpansionTile(
-					title: titleWidget,
-					children: <Widget>[
+			if(item.runtimeType == List<dynamic>().runtimeType){
+				// Add all childWidgets
+				for( dynamic childItem in item ){
+					childWidgetList.add(
 						getChildWidget( 
-							getDataFromList( detailData, v, type )
+							getDataFromList( item, childItem, 1 )
 						)
-					],
-				)
-			);
+					);
+				}
+			} else {
+				childWidgetList.add(
+					getChildWidget( 
+						getDataFromList( detailData, item, type )
+					)
+				);
+			}
+			if(type == 0){
+				widgetList.add(
+					ExpansionTile(
+						title: titleWidget,
+						children: childWidgetList,
+					)
+				);
+			} else {
+				widgetList.add(
+					Column(children: childWidgetList,)
+				);
+			}
 		}
 		return widgetList;
 	}
@@ -106,7 +129,13 @@ class MyCustomDetailsBlockState extends State<MyCustomDetailsBlockWidget> {
 		} else if(detailData.runtimeType == Map<String, dynamic>().runtimeType){
 			return MyCustomDetailsBlockWidget(detailData: detailData);
 		}
-		return Text(detailData.toString(), textAlign: TextAlign.left,);
+		return Container(
+			padding: EdgeInsets.all(5.0),
+			child: Text(
+				detailData.toString(), 
+				textAlign: TextAlign.left,
+			),
+		);
 	}
 	
 	@override
