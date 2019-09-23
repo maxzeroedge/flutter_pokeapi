@@ -131,7 +131,11 @@ class MyCustomDetailsBlockState extends State<MyCustomDetailsBlockWidget> {
 		}
 		return Container(
 			padding: EdgeInsets.all(5.0),
-			child: Text(
+			child: detailData.toString().contains("png") || detailData.toString().contains("jpg") 
+				? 
+				Image.network(detailData) 
+				: 
+				Text(
 				detailData.toString(), 
 				textAlign: TextAlign.left,
 			),
